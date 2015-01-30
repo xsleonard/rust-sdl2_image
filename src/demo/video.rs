@@ -36,14 +36,15 @@ pub fn main(png: &Path) {
     //     Err(err) => panic!(format!("Could not set render target: {}", err))
     // };
 
-    let _ = renderer.copy(&texture, None, None);
-    renderer.present();
+    let mut drawer = renderer.drawer();
+    let _ = drawer.copy(&texture, None, None);
+    drawer.present();
 
     'main : loop {
         'event : loop {
             match sdl2::event::poll_event() {
-                sdl2::event::Event::Quit(_) => break 'main,
-                sdl2::event::Event::KeyDown(_, _, key, _, _, _) => {
+                sdl2::event::Event::Quit{..} => break 'main,
+                sdl2::event::Event::KeyDown{ keycode: key, .. } => {
                     if key == sdl2::keycode::KeyCode::Escape {
                         break 'main
                     }
