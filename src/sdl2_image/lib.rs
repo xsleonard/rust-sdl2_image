@@ -122,7 +122,7 @@ impl SaveSurface for Surface {
 }
 
 /// Method extensions for creating Textures from a Renderer
-/*pub trait LoadTexture {
+pub trait LoadTexture {
     fn load_texture(&self, filename: &Path) -> SdlResult<Texture>;
 }
 
@@ -134,11 +134,11 @@ impl LoadTexture for Renderer {
             if raw == ptr::null() {
                 Err(get_error())
             } else {
-                Ok(Texture{ raw: raw, owned: true, _marker: ContravariantLifetime })
+                Ok(Texture::from_ll(raw))
             }
         }
     }
-}*/
+}
 
 pub fn init(flags: InitFlag) -> InitFlag {
     //! Initializes SDL2_image with InitFlags and returns which

@@ -1,7 +1,7 @@
 use sdl2;
 use sdl2_image;
 use sdl2_image::LoadSurface;
-// use sdl2_image::LoadTexture;
+use sdl2_image::LoadTexture;
 
 pub fn main(png: &Path) {
     sdl2::init(sdl2::INIT_VIDEO);
@@ -30,11 +30,11 @@ pub fn main(png: &Path) {
         Err(err) => panic!(format!("Failed to create surface: {}", err))
     };
 
-    // // Load a texture directly via the renderer
-    // let texture = match renderer.load_texture(png) {
-    //     Ok(texture) => texture,
-    //     Err(err) => panic!(format!("Could not set render target: {}", err))
-    // };
+    // Load a texture directly via the renderer
+    let texture = match renderer.load_texture(png) {
+        Ok(texture) => texture,
+        Err(err) => panic!(format!("Could not set render target: {}", err))
+    };
 
     let mut drawer = renderer.drawer();
     let _ = drawer.copy(&texture, None, None);
