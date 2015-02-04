@@ -1,7 +1,7 @@
 use sdl2;
 use sdl2_image;
 use sdl2_image::LoadSurface;
-// use sdl2_image::LoadTexture;
+use sdl2_image::LoadTexture;
 
 pub fn main(png: &Path) {
     sdl2::init(sdl2::INIT_VIDEO);
@@ -30,20 +30,21 @@ pub fn main(png: &Path) {
         Err(err) => panic!(format!("Failed to create surface: {}", err))
     };
 
-    // // Load a texture directly via the renderer
-    // let texture = match renderer.load_texture(png) {
-    //     Ok(texture) => texture,
-    //     Err(err) => panic!(format!("Could not set render target: {}", err))
-    // };
+    // Load a texture directly via the renderer
+    let texture = match renderer.load_texture(png) {
+        Ok(texture) => texture,
+        Err(err) => panic!(format!("Could not set render target: {}", err))
+    };
 
-    let _ = renderer.copy(&texture, None, None);
-    renderer.present();
+    let mut drawer = renderer.drawer();
+    let _ = drawer.copy(&texture, None, None);
+    drawer.present();
 
     'main : loop {
         'event : loop {
             match sdl2::event::poll_event() {
-                sdl2::event::Event::Quit(_) => break 'main,
-                sdl2::event::Event::KeyDown(_, _, key, _, _, _) => {
+                sdl2::event::Event::Quit{..} => break 'main,
+                sdl2::event::Event::KeyDown{ keycode: key, .. } => {
                     if key == sdl2::keycode::KeyCode::Escape {
                         break 'main
                     }

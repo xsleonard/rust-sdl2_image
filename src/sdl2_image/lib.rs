@@ -1,11 +1,13 @@
-#![feature(macro_rules)]
-
 #![crate_name="sdl2_image"]
 #![crate_type = "lib"]
 
 
 extern crate sdl2;
+extern crate "sdl2-sys" as sdl2_sys;
 extern crate libc;
+
+#[macro_use]
+extern crate bitflags;
 
 use libc::{c_int, c_char};
 use std::ptr;
@@ -17,6 +19,7 @@ use sdl2::rwops::RWops;
 use sdl2::version::Version;
 use sdl2::get_error;
 use sdl2::SdlResult;
+use std::marker::ContravariantLifetime;
 
 // Setup linking for all targets.
 #[cfg(target_os="macos")]
@@ -131,7 +134,7 @@ impl LoadTexture for Renderer {
             if raw == ptr::null() {
                 Err(get_error())
             } else {
-                Ok(Texture{ raw: raw, owned: true })
+                Ok(Texture::from_ll(raw))
             }
         }
     }
@@ -159,7 +162,7 @@ pub fn get_linked_version() -> Version {
 }
 
 #[inline]
-fn to_surface_result(raw: *const sdl2::surface::ll::SDL_Surface) -> SdlResult<Surface> {
+fn to_surface_result(raw: *const sdl2_sys::surface::SDL_Surface) -> SdlResult<Surface> {
     if raw == ptr::null() {
         Err(get_error())
     } else {
