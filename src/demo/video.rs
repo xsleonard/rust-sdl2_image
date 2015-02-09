@@ -35,8 +35,8 @@ pub fn main(png: &Path) {
     //     Err(err) => panic!(format!("Could not set render target: {}", err))
     // };
 
-    let _ = renderer.copy(&texture, None, None);
-    renderer.present();
+    let _ = renderer.drawer().copy(&texture, None, None);
+    renderer.drawer().present();
 
     'main : loop {
         'event : loop {
