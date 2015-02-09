@@ -7,7 +7,7 @@ use std::os;
 
 mod video;
 
-#[main]
+//#[main]
 fn main() {
     let args = os::args();
     if args.len() < 2 {

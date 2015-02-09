@@ -17,5 +17,7 @@ path       = "src/sdl2_image/lib.rs"
 name = "demo"
 path = "src/demo/main.rs"
 
-[dependencies.sdl2]
-sdl2 = "^0"
+[dependencies]
+sdl2 = "*"
+sdl2-sys = "*"
+bitflags = "*"
