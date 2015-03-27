@@ -5,12 +5,12 @@
 
 extern crate sdl2;
 extern crate libc;
-extern crate "sdl2-sys" as sys;
+extern crate sdl2_sys as sys;
 
 #[macro_use]
 extern crate bitflags;
 
-use libc::{c_int, c_char};
+use libc::c_int;
 use std::ptr;
 use std::ffi::CString;
 use std::path::Path;
@@ -85,7 +85,7 @@ impl LoadSurface for Surface {
     fn from_xpm_array(xpm: *const *const i8) -> SdlResult<Surface> {
         //! Loads an SDL Surface from XPM data
         unsafe {
-            let raw = ffi::IMG_ReadXPMFromArray(xpm as *const *const c_char);
+            let raw = ffi::IMG_ReadXPMFromArray(xpm);
             if raw == ptr::null() {
                 Err(get_error())
             } else {
